@@ -4,17 +4,17 @@ pragma solidity ^0.8.17;
 // import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-// import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-// import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 struct NFTListing {
     uint price;
     address seller;
 }
 
-contract ArchiveMarket is ERC721URIStorage {
+contract ArchiveMarket is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
-    // using SafeMath for uint256;
+    using SafeMath for uint256;
     Counters.Counter private _tokenIds;
     mapping(uint256 => NFTListing) private _listings;
 
@@ -54,6 +54,24 @@ contract ArchiveMarket is ERC721URIStorage {
         ERC721(address(this)).transferFrom(address(this), msg.sender, tokenId);
         clearListing(tokenId);
         emit NFTTransfer(tokenId, address(this), msg.sender, "", 0);
+    }
+
+    // purchase nft
+    function purchaseNFT(uint256 tokenId) public payable {
+        NFTListing memory listing = _listings[tokenId];
+        require(listing.price > 0, 'ArchiveMarket: NFT is not listed for sale');
+        require(msg.value == listing.price, 'ArchiveMarket: Incorrect Price');
+        ERC721(address(this)).transferFrom(address(this), msg.sender, tokenId);
+        clearListing(tokenId);
+        payable(listing.seller).transfer(listing.price.mul(98).div(100));
+        emit NFTTransfer(tokenId, address(this), msg.sender, "", 0);
+    }
+
+    // withdraw funds
+    function withdrawFunds() public onlyOwner {
+        uint256 balance = address(this).balance;
+        require(balance > 0, "ArchiveMarket: balance is zero");
+        payable(msg.sender).transfer(balance);
     }
 
     // clear listing helper function
