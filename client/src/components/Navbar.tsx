@@ -1,4 +1,6 @@
 import React, { useRef } from "react"
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { InjectedConnector } from "wagmi/connectors/injected"
 import {
 	Box,
 	Flex,
@@ -16,7 +18,7 @@ import {
 	DrawerHeader,
 	DrawerOverlay,
 	useColorMode,
-	useToast
+	useToast,
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import logo from "../assets/logo.svg"
@@ -32,6 +34,11 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 	const toast = useToast()
 	// call hook from react-router-dom
 	const navigate = useNavigate()
+	const { address, isConnected } = useAccount()
+	const { connect } = useConnect({
+		connector: new InjectedConnector(),
+	})
+	const { disconnect } = useDisconnect()
 
 	return (
 		<Flex
@@ -79,7 +86,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						xs: "none",
 						sm: "none",
 						md: "none",
-						lg: "flex",
+						lg: "none",
 						xl: "flex",
 					}}
 				>
@@ -97,7 +104,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 							xs: "flex",
 							sm: "flex",
 							md: "flex",
-							lg: "none",
+							lg: "flex",
 							xl: "none",
 						}}
 						ref={menuRef}
@@ -108,31 +115,17 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						onClick={toggleColorMode}
 						icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
 					/>
-					<Button bg="orange.300"
-						onClick={async () => {
-							// if (address) {
-							// 	navigate('upload')
-							// } else {
-							// 	try {
-							// 		await connect()
-							// 		setIsConnected(true)
-							// 		toast({
-							// 			title: 'Successfully connected :)',
-							// 			status: 'success',
-							// 			isClosable: true,
-							// 		})
-							// 	} catch (error) { //TODO bug
-							// 		toast({
-							// 			title: 'Failed to connect :(',
-							// 			status: 'error',
-							// 			isClosable: true,
-							// 		})
-							// 	}
-							}
-						}
-					>
-						{/* {address ? "upload asset" : "connect wallet"} */}
-					</Button>
+					{isConnected ? (
+						<Button bg="orange.300" onClick={() => disconnect()}>
+							Disconnect
+							</Button>
+					) : (
+						<Button bg="orange.300" onClick={() => connect()}>
+							Connect Wallet
+							</Button>
+					)}
+
+					
 				</Flex>
 				<Drawer
 					isOpen={isOpen}
