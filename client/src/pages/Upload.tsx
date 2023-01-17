@@ -1,5 +1,5 @@
 import {
-    Box,
+	Box,
 	Button,
 	Flex,
 	Heading,
@@ -18,15 +18,14 @@ import {
 	IconButton,
 	Portal,
 	Divider,
-	Badge
+	Badge,
+	Textarea,
 } from "@chakra-ui/react"
 import React, { FormEvent, useState } from "react"
 import { CustomDropzone } from "../components"
 
 import { QuestionOutlineIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { useAccount } from 'wagmi'
-
-
+import { useAccount } from "wagmi"
 
 export interface IUploadPageProps {}
 
@@ -35,8 +34,8 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 	const toast = useToast()
 	// upload image file captured from CustomDropzone
 	const [uploadImage, setUploadImage] = useState<any>(null)
-	// state for caption input
-	const [caption, setCaption] = useState("")
+	const [name, setName] = useState('')
+	const [description, setDescription] = useState('')
 	// state for loading
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -44,25 +43,27 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
-		console.log("submitting....")
-		setIsLoading(true)
-		try {
-			// upload file to ipfs
-			// communicate with blockchain
-			toast({
-				title: "Successfully submitted :)",
-				status: "success",
-				isClosable: true,
-			})
-		} catch (error) {
-			toast({
-				title: "Failed to submit :(",
-				status: "error",
-				isClosable: true,
-			})
-		}
-		setIsLoading(false)
-		setCaption("")
+		console.log({ "name": name, "description": description, "image": uploadImage })
+
+		// console.log("submitting....")
+		// setIsLoading(true)
+		// try {
+		// 	// upload file to ipfs
+		// 	// communicate with blockchain
+		// 	toast({
+		// 		title: "Successfully submitted :)",
+		// 		status: "success",
+		// 		isClosable: true,
+		// 	})
+		// } catch (error) {
+		// 	toast({
+		// 		title: "Failed to submit :(",
+		// 		status: "error",
+		// 		isClosable: true,
+		// 	})
+		// }
+		// setIsLoading(false)
+		// setCaption("")
 	}
 
 	return (
@@ -72,50 +73,74 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 			flexDirection="column"
 			alignItems="center"
 		>
-			{ isConnected ? (
-			<Flex
-				justifyContent="center"
-				flexDirection="column"
-				alignItems="center"
-			>
-				<Heading as="h4" size="md">
-					Drag and drop the phote you want upload <Badge colorScheme='green'>FAST</Badge>
-				</Heading>
-				<Text>
-					Your asset will be stored on IPFS and visible on Eth
-					blockchain.
-				</Text>
-				<Divider />
-				<form onSubmit={handleSubmit}>
-					{uploadImage === null ? (
-						<CustomDropzone setUploadImage={setUploadImage} />
-					) : (
-						<Image
-							p="2rem"
-							w="400px"
-							h="400px"
-							objectFit="cover"
-							src={URL.createObjectURL(uploadImage)}
-						/>
-					)}
+			{isConnected ? (
+				<Flex
+					justifyContent="center"
+					flexDirection="column"
+					alignItems="center"
+				>
+					<Heading as="h4" size="md">
+						Drag and drop the phote you want upload{" "}
+						<Badge colorScheme="green">FAST</Badge>
+					</Heading>
+					<Text>
+						Your asset will be stored on IPFS and visible on Eth
+						blockchain.
+					</Text>
+					<Divider />
 
-					<Stack>
-						<Input
-							placeholder="A short caption..."
-							onChange={(e) => setCaption(e.target.value)}
-							value={caption}
-						/>
+					<form onSubmit={handleSubmit}>
+						<Flex alignItems='center' gap='.5rem' flexDirection={{ xs: 'column', sm: 'column', md: "row", lg: 'row', xl: 'row' }}>
+							{uploadImage === null ? (
+								<CustomDropzone
+									setUploadImage={setUploadImage}
+								/>
+							) : (
+								<Image
+									p="2rem"
+									w="300px"
+									h="400px"
+									objectFit="cover"
+									src={URL.createObjectURL(uploadImage)}
+								/>
+							)}
+
+							<Stack>
+								<Input
+									placeholder="Give it a name..."
+									onChange={(e) => setName(e.target.value)}
+									value={name}
+									isRequired
+									width='100%'
+									marginTop='10px'
+								/>
+								<Textarea 
+									placeholder="Give it a description..."
+									onChange={e => setDescription(e.target.value)}
+									value={description}
+									size='md'
+									rows={15}
+									isRequired
+									width='100%'
+								/>
+							</Stack>
+						</Flex>
+						<Flex justifyContent='flex-end'>
+
 						<Button
 							isLoading={isLoading}
 							loadingText="submitting..."
 							type="submit"
+							marginTop='5px'
+							width='10rem'
+							variant='solid'
+							backgroundColor='green.200'
 						>
 							Submit
 						</Button>
-					</Stack>
-				</form>
-			</Flex>
-
+						</Flex>
+					</form>
+				</Flex>
 			) : (
 				<div>Please connect wallet to upload</div>
 			)}
