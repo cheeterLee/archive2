@@ -105,7 +105,7 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 								/>
 							)}
 
-							<Stack>
+							<Stack width='300px'>
 								<Input
 									placeholder="Give it a name..."
 									onChange={(e) => setName(e.target.value)}
