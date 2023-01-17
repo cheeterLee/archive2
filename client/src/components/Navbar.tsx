@@ -109,11 +109,29 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
 					/>
 					<Button bg="orange.300"
-						onClick={async () => {}
-							
+						onClick={async () => {
+							// if (address) {
+							// 	navigate('upload')
+							// } else {
+							// 	try {
+							// 		await connect()
+							// 		setIsConnected(true)
+							// 		toast({
+							// 			title: 'Successfully connected :)',
+							// 			status: 'success',
+							// 			isClosable: true,
+							// 		})
+							// 	} catch (error) { //TODO bug
+							// 		toast({
+							// 			title: 'Failed to connect :(',
+							// 			status: 'error',
+							// 			isClosable: true,
+							// 		})
+							// 	}
+							}
 						}
 					>
-						Connect Wallet
+						{/* {address ? "upload asset" : "connect wallet"} */}
 					</Button>
 				</Flex>
 				<Drawer
