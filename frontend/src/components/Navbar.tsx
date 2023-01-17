@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useRef } from "react"
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { InjectedConnector } from "wagmi/connectors/injected"
 import {
 	Box,
 	Flex,
@@ -17,12 +19,11 @@ import {
 	DrawerHeader,
 	DrawerOverlay,
 	useColorMode,
-	useToast
+	useToast,
 } from "@chakra-ui/react"
-import Image from 'next/image'
+import Image from "next/image"
 import logo from "../../public/images/logo.svg"
 import { HamburgerIcon, SunIcon, MoonIcon } from "@chakra-ui/icons"
-
 
 export interface INavbarProps {}
 
@@ -32,7 +33,11 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 	const menuRef = useRef<any>()
 	const { colorMode, toggleColorMode } = useColorMode()
 	const toast = useToast()
-	
+	const { address, isConnected } = useAccount()
+	const { connect } = useConnect({
+		connector: new InjectedConnector(),
+	})
+	const { disconnect } = useDisconnect()
 
 	return (
 		<Flex
@@ -49,7 +54,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 					alignItems="center"
 					justifyContent="center"
 				>
-					<Image src={logo} alt='logo' />
+					<Image src={logo} alt="logo" />
 				</Box>
 				<Heading
 					as="h1"
@@ -109,13 +114,27 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						onClick={toggleColorMode}
 						icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
 					/>
-					<Button bg="orange.300"
-						onClick={async () => {
+					{isConnected ? (
+						<Button bg="orange.300" onClick={() => disconnect()}>
+							Disconnect
+						</Button>
+					) : (
+						<Button bg="orange.300" onClick={async () => {
+							try {
+								connect() // TODO Toast not working
+								
+							} catch (error) { // TODO bug
+								toast({
+									title: 'Failed to connect :(',
+									status: 'error',
+									isClosable: true,
+								})
 							
-							
-						}}
-					>
-					</Button>
+							}
+						}}>
+							Connect Wallet
+						</Button>
+					)}
 				</Flex>
 				<Drawer
 					isOpen={isOpen}
