@@ -1,6 +1,6 @@
 import { TransactionResponse } from "@ethersproject/abstract-provider"
 import { Contract } from 'ethers'
-import ArchiveMarket from '../../../smart_contract/artifacts/contracts/ArchiveMarket.sol/ArchiveMarket.json'
+import ArchiveMarket from './ArchiveMarket.json'
 import { useSigner } from "wagmi"
 
 type CreationValues = {

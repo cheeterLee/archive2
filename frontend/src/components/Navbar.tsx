@@ -1,10 +1,9 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useAccount, useConnect, useDisconnect } from "wagmi"
 import { InjectedConnector } from "wagmi/connectors/injected"
 import {
 	Box,
 	Flex,
-	// Image,
 	Heading,
 	Link,
 	IconButton,
@@ -23,6 +22,8 @@ import {
 import logo from "../../public/logo.svg"
 import { HamburgerIcon, SunIcon, MoonIcon } from "@chakra-ui/icons"
 import Image from "next/image"
+import ConnectButton from "./ConnectButton"
+import { useRouter } from "next/router"
 
 export interface INavbarProps {}
 
@@ -31,11 +32,6 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 	const menuRef = useRef<any>()
 	const { colorMode, toggleColorMode } = useColorMode()
 	const toast = useToast()
-	const { address, isConnected } = useAccount()
-	const { connect } = useConnect({
-		connector: new InjectedConnector(),
-	})
-	const { disconnect } = useDisconnect()
 
 	return (
 		<Flex
@@ -52,7 +48,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 					alignItems="center"
 					justifyContent="center"
 				>
-					<Image src={logo} alt='logo' />
+					<Image src={logo} alt="logo" />
 				</Box>
 				<Heading
 					as="h1"
@@ -112,16 +108,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						onClick={toggleColorMode}
 						icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
 					/>
-					{isConnected ? (
-						<Button bg="orange.300" onClick={() => disconnect()}>
-							Disconnect
-							</Button>
-					) : (
-						<Button bg="orange.300" onClick={() => connect()}>
-							Connect Wallet
-							</Button>
-					)}
-					
+					<ConnectButton />
 				</Flex>
 				<Drawer
 					isOpen={isOpen}
