@@ -23,29 +23,35 @@ import {
 } from "@chakra-ui/react"
 import React, { FormEvent, useState } from "react"
 import { CustomDropzone } from "../components"
-
 import { QuestionOutlineIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { useAccount } from "wagmi"
+import useArchiveMarket from "../hooks/useArchiveMarket" 
 
 export interface IUploadPageProps {}
 
 const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
-	// chakra toast
 	const toast = useToast()
-	// upload image file captured from CustomDropzone
 	const [uploadImage, setUploadImage] = useState<any>(null)
-	const [name, setName] = useState('')
-	const [description, setDescription] = useState('')
-	// state for loading
+	const [name, setName] = useState("")
+	const [description, setDescription] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
-
 	const { isConnected } = useAccount()
+	const { createNFT } = useArchiveMarket()
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
-		console.log({ "name": name, "description": description, "image": uploadImage })
+		console.log({
+			name: name,
+			description: description,
+			image: uploadImage,
+		})
 
-		// console.log("submitting....")
+		console.log("submitting....")
+		createNFT({
+			name: name,
+			description: description,
+			image: uploadImage,
+		})
 		// setIsLoading(true)
 		// try {
 		// 	// upload file to ipfs
@@ -90,7 +96,17 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 					<Divider />
 
 					<form onSubmit={handleSubmit}>
-						<Flex alignItems='center' gap='.5rem' flexDirection={{ xs: 'column', sm: 'column', md: "row", lg: 'row', xl: 'row' }}>
+						<Flex
+							alignItems="center"
+							gap=".5rem"
+							flexDirection={{
+								xs: "column",
+								sm: "column",
+								md: "row",
+								lg: "row",
+								xl: "row",
+							}}
+						>
 							{uploadImage === null ? (
 								<CustomDropzone
 									setUploadImage={setUploadImage}
@@ -105,39 +121,40 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 								/>
 							)}
 
-							<Stack width='300px'>
+							<Stack width="300px">
 								<Input
 									placeholder="Give it a name..."
 									onChange={(e) => setName(e.target.value)}
 									value={name}
 									isRequired
-									width='100%'
-									marginTop='10px'
+									width="100%"
+									marginTop="10px"
 								/>
-								<Textarea 
+								<Textarea
 									placeholder="Give it a description..."
-									onChange={e => setDescription(e.target.value)}
+									onChange={(e) =>
+										setDescription(e.target.value)
+									}
 									value={description}
-									size='md'
+									size="md"
 									rows={15}
 									isRequired
-									width='100%'
+									width="100%"
 								/>
 							</Stack>
 						</Flex>
-						<Flex justifyContent='flex-end'>
-
-						<Button
-							isLoading={isLoading}
-							loadingText="submitting..."
-							type="submit"
-							marginTop='5px'
-							width='10rem'
-							variant='solid'
-							backgroundColor='green.200'
-						>
-							Submit
-						</Button>
+						<Flex justifyContent="flex-end">
+							<Button
+								isLoading={isLoading}
+								loadingText="submitting..."
+								type="submit"
+								marginTop="5px"
+								width="10rem"
+								variant="solid"
+								backgroundColor="green.200"
+							>
+								Submit
+							</Button>
 						</Flex>
 					</form>
 				</Flex>
