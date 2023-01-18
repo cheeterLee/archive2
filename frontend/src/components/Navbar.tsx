@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
-// import { useAccount, useConnect, useDisconnect } from "wagmi"
-// import { InjectedConnector } from "wagmi/connectors/injected"
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { InjectedConnector } from "wagmi/connectors/injected"
 import {
 	Box,
 	Flex,
@@ -20,7 +20,6 @@ import {
 	useColorMode,
 	useToast,
 } from "@chakra-ui/react"
-// import { useNavigate } from "react-router-dom"
 import logo from "../../public/logo.svg"
 import { HamburgerIcon, SunIcon, MoonIcon } from "@chakra-ui/icons"
 import Image from "next/image"
@@ -28,18 +27,15 @@ import Image from "next/image"
 export interface INavbarProps {}
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
-	// chakra util function from doc
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const menuRef = useRef<any>()
 	const { colorMode, toggleColorMode } = useColorMode()
 	const toast = useToast()
-	// call hook from react-router-dom
-	// const navigate = useNavigate()
-	// const { address, isConnected } = useAccount()
-	// const { connect } = useConnect({
-	// 	connector: new InjectedConnector(),
-	// })
-	// const { disconnect } = useDisconnect()
+	const { address, isConnected } = useAccount()
+	const { connect } = useConnect({
+		connector: new InjectedConnector(),
+	})
+	const { disconnect } = useDisconnect()
 
 	return (
 		<Flex
@@ -116,7 +112,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						onClick={toggleColorMode}
 						icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
 					/>
-					{/* {isConnected ? (
+					{isConnected ? (
 						<Button bg="orange.300" onClick={() => disconnect()}>
 							Disconnect
 							</Button>
@@ -124,10 +120,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						<Button bg="orange.300" onClick={() => connect()}>
 							Connect Wallet
 							</Button>
-					)} */}
-                    <Button bg="orange.300" onClick={() => {}}>
-							Connect Wallet
-							</Button>
+					)}
 					
 				</Flex>
 				<Drawer

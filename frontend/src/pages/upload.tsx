@@ -24,7 +24,7 @@ import {
 import React, { FormEvent, useState } from "react"
 import CustomDropzone from "../components/CustomDropzone"
 import { QuestionOutlineIcon, ChevronRightIcon } from "@chakra-ui/icons"
-// import { useAccount } from "wagmi"
+import { useAccount } from "wagmi"
 // import useArchiveMarket from "../hooks/useArchiveMarket" 
 
 export interface IUploadPageProps {}
@@ -35,7 +35,7 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 	const [name, setName] = useState("")
 	const [description, setDescription] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
-	// const { isConnected } = useAccount()
+	const { isConnected } = useAccount()
 	// const { createNFT } = useArchiveMarket()
 
 	const handleSubmit = async (e: FormEvent) => {
@@ -65,7 +65,7 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 			flexDirection="column"
 			alignItems="center"
 		>
-			{/* {isConnected ? ( */}
+			{isConnected ? (
 				<Flex
 					justifyContent="center"
 					flexDirection="column"
@@ -144,9 +144,9 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 						</Flex>
 					</form>
 				</Flex>
-			{/* ) : (
+			) : (
 				<div>Please connect wallet to upload</div>
-			)} */}
+			)}
 			<Popover>
 				<PopoverTrigger>
 					<IconButton
