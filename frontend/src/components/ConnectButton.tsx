@@ -1,52 +1,65 @@
-import { Box, Button } from "@chakra-ui/react"
+import {
+	Box,
+	Button,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
+} from "@chakra-ui/react"
 import Blockies from "react-blockies"
-import React, { useState, useEffect } from "react"
-import { useAccount, useConnect, useDisconnect } from "wagmi"
-import { InjectedConnector } from "wagmi/connectors/injected"
+import React, { useState, useEffect, useMemo } from "react"
 import useSignerContext from "@/context/signer"
+import { shortenAddress } from "@/utils/helper"
 
 export interface IConnectButtonProps {}
 
 const ConnectButton: React.FunctionComponent<IConnectButtonProps> = (props) => {
-	// // State / Props
-	// const [hasMounted, setHasMounted] = useState(false)
-	// const { address, isConnected } = useAccount()
-	// const { connect } = useConnect({
-	// 	connector: new InjectedConnector(),
-	// })
-	// const { disconnect } = useDisconnect()
-
-	// // Hooks
-	// useEffect(() => {
-	// 	setHasMounted(true)
-	// }, [])
-
-	// // Render
-	// if (!hasMounted) return null
-
 	const { address, loading, connectWallet } = useSignerContext()
+	const { isOpen, onOpen, onClose } = useDisclosure()
 
 	if (address) {
+		const parsedAddress = shortenAddress(address)
+
 		return (
-			<Box alignContent='center' justifyItems='center'>
-				<Blockies seed={address.toLowerCase()} /> 
+			<Box
+				display="flex"
+				alignItems="center"
+				justifyItems="center"
+				gap=".55rem"
+			>
+				<Button bg="orange.300" onClick={onOpen}>
+					{parsedAddress}
+				</Button>
+				<Modal isOpen={isOpen} onClose={onClose}>
+					<ModalOverlay />
+					<ModalContent>
+						<ModalHeader>Modal Title</ModalHeader>
+						<ModalCloseButton />
+						<ModalBody>
+							blah
+						</ModalBody>
+
+						<ModalFooter>
+							<Button colorScheme="blue" mr={3} onClick={onClose}>
+								Close
+							</Button>
+							<Button variant="ghost">Secondary Action</Button>
+						</ModalFooter>
+					</ModalContent>
+				</Modal>
+				<Blockies seed={address.toLowerCase()} />
 			</Box>
 		)
 	}
 
 	return (
 		<>
-			{/* {isConnected ? (
-				<Button bg="orange.300" onClick={() => disconnect()}>
-					Disconnect
-				</Button>
-			) : (
-				<Button bg="orange.300" onClick={() => connect()}>
-					Connect Wallet
-				</Button>
-			)} */}
 			<Button bg="orange.300" onClick={() => connectWallet()}>
-				{loading ? 'busy...' : 'Connect Wallet'}
+				{loading ? "busy..." : "Connect Wallet"}
 			</Button>
 		</>
 	)

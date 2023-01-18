@@ -40,6 +40,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 			alignItems="center"
 			justifyContent="space-between"
 			bg="blackAlpha.400"
+			w='100vw'
 		>
 			<Flex alignItems="center" gap="1.5rem">
 				<Box

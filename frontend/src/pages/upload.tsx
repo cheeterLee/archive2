@@ -24,8 +24,9 @@ import {
 import React, { FormEvent, useState } from "react"
 import CustomDropzone from "../components/CustomDropzone"
 import { QuestionOutlineIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { useAccount } from "wagmi"
-import useArchiveMarket from "../hooks/useArchiveMarket" 
+import useArchiveMarket from "../hooks/useArchiveMarket"
+import useSignerContext from "@/context/signer"
+import PlaceHolder from "@/components/Placeholder"
 
 export interface IUploadPageProps {}
 
@@ -35,11 +36,18 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 	const [name, setName] = useState("")
 	const [description, setDescription] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
-	const { isConnected } = useAccount()
 	const { createNFT } = useArchiveMarket()
+	const { signer } = useSignerContext()
+
+	if (!signer) {
+		return (
+			<PlaceHolder />
+		)
+	}
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
+		setIsLoading(true)
 		console.log({
 			name: name,
 			description: description,
@@ -47,15 +55,16 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 		})
 
 		console.log("submitting....")
+
 		await createNFT({
 			name: name,
 			description: description,
 			image: uploadImage,
 		})
-		// setIsLoading(true)
-		
-		// setIsLoading(false)
-		// setCaption("")
+
+		setIsLoading(false)
+		setName("")
+		setDescription("")
 	}
 
 	return (
@@ -66,84 +75,80 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 			alignItems="center"
 		>
 			{/* {isConnected ? ( */}
-				<Flex
-					justifyContent="center"
-					flexDirection="column"
-					alignItems="center"
-				>
-					<Heading as="h4" size="md">
-						Drag and drop the phote you want upload{" "}
-						<Badge colorScheme="green">FAST</Badge>
-					</Heading>
-					<Text>
-						Your asset will be stored on IPFS and visible on Eth
-						blockchain.
-					</Text>
-					<Divider />
+			<Flex
+				justifyContent="center"
+				flexDirection="column"
+				alignItems="center"
+			>
+				<Heading as="h4" size="md">
+					Drag and drop the phote you want upload{" "}
+					<Badge colorScheme="green">FAST</Badge>
+				</Heading>
+				<Text>
+					Your asset will be stored on IPFS and visible on Eth
+					blockchain.
+				</Text>
+				<Divider />
 
-					<form onSubmit={handleSubmit}>
-						<Flex
-							alignItems="center"
-							gap=".5rem"
-							flexDirection={{
-								xs: "column",
-								sm: "column",
-								md: "row",
-								lg: "row",
-								xl: "row",
-							}}
+				<form onSubmit={handleSubmit}>
+					<Flex
+						alignItems="center"
+						gap=".5rem"
+						flexDirection={{
+							xs: "column",
+							sm: "column",
+							md: "row",
+							lg: "row",
+							xl: "row",
+						}}
+					>
+						{uploadImage === null ? (
+							<CustomDropzone setUploadImage={setUploadImage} />
+						) : (
+							<Image
+								p="2rem"
+								w="300px"
+								h="400px"
+								objectFit="cover"
+								src={URL.createObjectURL(uploadImage)}
+							/>
+						)}
+
+						<Stack width="300px">
+							<Input
+								placeholder="Give it a name..."
+								onChange={(e) => setName(e.target.value)}
+								value={name}
+								isRequired
+								width="100%"
+								marginTop="10px"
+							/>
+							<Textarea
+								placeholder="Give it a description..."
+								onChange={(e) => setDescription(e.target.value)}
+								value={description}
+								size="md"
+								rows={15}
+								isRequired
+								width="100%"
+							/>
+						</Stack>
+					</Flex>
+					<Flex justifyContent="flex-end">
+						<Button
+							isLoading={isLoading}
+							loadingText="submitting..."
+							type="submit"
+							marginTop="5px"
+							width="10rem"
+							variant="solid"
+							backgroundColor="green.200"
 						>
-							{uploadImage === null ? (
-								<CustomDropzone
-									setUploadImage={setUploadImage}
-								/>
-							) : (
-								<Image
-									p="2rem"
-									w="300px"
-									h="400px"
-									objectFit="cover"
-									src={URL.createObjectURL(uploadImage)}
-								/>
-							)}
-
-							<Stack width="300px">
-								<Input
-									placeholder="Give it a name..."
-									onChange={(e) => setName(e.target.value)}
-									value={name}
-									isRequired
-									width="100%"
-									marginTop="10px"
-								/>
-								<Textarea
-									placeholder="Give it a description..."
-									onChange={(e) =>
-										setDescription(e.target.value)
-									}
-									value={description}
-									size="md"
-									rows={15}
-									isRequired
-									width="100%"
-								/>
-							</Stack>
-						</Flex>
-						<Flex justifyContent="flex-end">
-							<Button
-								isLoading={isLoading}
-								loadingText="submitting..."
-								type="submit"
-								marginTop="5px"
-								width="10rem"
-								variant="solid"
-								backgroundColor="green.200"
-							>
-								Submit
-							</Button>
-						</Flex>
-					</form>
-				</Flex>
+							Submit
+						</Button>
+					</Flex>
+				</form>
+			</Flex>
 			{/* ) : (
 				<div>Please connect wallet to upload</div>
 			)} */}
