@@ -86,7 +86,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 					<Link href="/">Home</Link>
 					<Link href="/upload">Upload</Link>
 					<Link href="/gallery">Gallery</Link>
-					<Link href="/mint">Dashboard</Link>
+					<Link href="/dashboard">Dashboard</Link>
 					<Link href="/contact">Contact</Link>
 				</Flex>
 				<Flex gap=".5rem">
@@ -134,7 +134,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 								<Link href="/">Home</Link>
 								<Link href="/upload">Upload</Link>
 								<Link href="/gallery">Gallery</Link>
-								<Link href="/mint">Dashboard</Link>
+								<Link href="/dashboard">Dashboard</Link>
 								<Link href="/contact">Contact</Link>
 							</Flex>
 						</DrawerBody>

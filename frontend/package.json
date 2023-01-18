@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.4",
     "@chakra-ui/icons": "^2.0.16",
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.10.5",
@@ -20,6 +21,7 @@
     "ethers": "^5.7.2",
     "formidable": "^2.1.1",
     "framer-motion": "^8.4.6",
+    "graphql": "^16.6.0",
     "install": "^0.13.0",
     "next": "13.1.2",
     "nft.storage": "^7.0.0",
@@ -33,6 +35,7 @@
     "web3modal": "^1.9.11"
   },
   "devDependencies": {
+    "@apollo/rover": "^0.10.0",
     "@types/formidable": "^2.0.5",
     "@types/react-blockies": "^1.4.1"
   }

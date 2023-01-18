@@ -3,6 +3,7 @@ import { Contract } from 'ethers'
 import ArchiveMarket from './ArchiveMarket.json'
 // import { useSigner } from "wagmi"
 import useSignerContext from "@/context/signer"
+import useOwnedNFTs from "./useOwnedNFTs"
 
 type CreationValues = {
     name: string
@@ -37,7 +38,9 @@ const useArchiveMarket = () => {
         }
     }
 
-    return { createNFT }
+    const ownedNFTs = useOwnedNFTs()
+
+    return { createNFT, ...ownedNFTs }
 }
 
 export default useArchiveMarket
