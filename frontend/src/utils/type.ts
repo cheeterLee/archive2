@@ -1,3 +1,11 @@
+// nft
+export type NFT = {
+    id: string
+    owner: string
+    price: string
+    tokenURI: string
+}
+
 // get owned nfts
 export interface GetOwnedNFTs_nfts {
 	__typename: "NFT"
