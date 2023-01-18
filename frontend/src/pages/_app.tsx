@@ -4,6 +4,7 @@ import theme from "../chakra/theme"
 import Navbar from "@/components/Navbar"
 import { WagmiConfig, createClient } from "wagmi"
 import { getDefaultProvider } from "ethers"
+import { SignerContextProvider } from "@/context/signer"
 
 const client = createClient({
 	autoConnect: true,
@@ -12,11 +13,13 @@ const client = createClient({
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<WagmiConfig client={client}>
-			<ChakraProvider theme={theme}>
-				<Navbar />
-				<Component {...pageProps} />
-			</ChakraProvider>
-		</WagmiConfig>
+		<SignerContextProvider>
+			<WagmiConfig client={client}>
+				<ChakraProvider theme={theme}>
+					<Navbar />
+					<Component {...pageProps} />
+				</ChakraProvider>
+			</WagmiConfig>
+		</SignerContextProvider>
 	)
 }

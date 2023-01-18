@@ -108,7 +108,9 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 						onClick={toggleColorMode}
 						icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
 					/>
-					<ConnectButton />
+					<Flex alignItems="center">
+						<ConnectButton />
+					</Flex>
 				</Flex>
 				<Drawer
 					isOpen={isOpen}

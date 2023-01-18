@@ -1,7 +1,8 @@
 import { TransactionResponse } from "@ethersproject/abstract-provider"
 import { Contract } from 'ethers'
 import ArchiveMarket from './ArchiveMarket.json'
-import { useSigner } from "wagmi"
+// import { useSigner } from "wagmi"
+import useSignerContext from "@/context/signer"
 
 type CreationValues = {
     name: string
@@ -12,7 +13,7 @@ type CreationValues = {
 const ARCHIVE_MARKET_ADDRESS = process.env.NEXT_PUBLIC_ARCHIVE_MARKET_ADDRESS as string
 
 const useArchiveMarket = () => {
-    const { data: signer } = useSigner()
+    const { signer } = useSignerContext()
     const archiveMarket = new Contract(ARCHIVE_MARKET_ADDRESS, ArchiveMarket.abi, signer!)
  
     const createNFT = async (values: CreationValues) => {
