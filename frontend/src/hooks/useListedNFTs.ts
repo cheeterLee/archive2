@@ -9,7 +9,7 @@ const useListedNFTs = () => {
 
     const { data } = useQuery<GetListedNFTs, GetListedNFTsVariables>(
         GET_LISTED_NFTS,
-        { variables: { currentAddress: address ?? '' } }
+        // { variables: { currentAddress: address ?? '' } }
     ) 
     
     const listedNFTs = data?.nfts.map(parseRawNFT)
@@ -18,11 +18,11 @@ const useListedNFTs = () => {
 }
 
 const GET_LISTED_NFTS = gql`
-  query GetListedNFTs($currentAddress: String!) {
+  query GetListedNFTs($currentAddress: String) {
     nfts(
       where: {
         to: "${ARCHIVE_MARKET_ADDRESS}"
-        from_not: $currentAddress
+        # from_not: $currentAddress
       }
     ) {
       id

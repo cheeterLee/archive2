@@ -7,7 +7,6 @@ import {
 	Flex,
 	Image,
 	Text,
-	Avatar,
 	Menu,
 	MenuButton,
 	IconButton,
@@ -24,7 +23,7 @@ import {
 	BsEyeSlash,
 	BsHandThumbsDown,
 } from "react-icons/bs"
-
+import useSignerContext from "@/context/SignerContext"
 
 export interface IGallertCardProps {
 	nft: NFT
@@ -33,6 +32,8 @@ export interface IGallertCardProps {
 const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	const [metaData, setMetaData] = useState<NFTMetaData>()
     const [displayed, setDisplayed] = useState<string>("block")
+    const { address } = useSignerContext()
+    const isSellerOwner = address?.toLowerCase() === nft.owner.toLowerCase()
 
 	const fetchMetaData = async () => {
 		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
@@ -72,7 +73,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 					<Menu>
 						<MenuButton
 							as={IconButton}
-							aria-labe="options"
+							aria-label="options"
 							variant="ghost"
 							icon={<BsThreeDotsVertical />}
 						/>
@@ -122,7 +123,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 					},
 				}}
 			>
-				<Button
+				{/* <Button
 					fontSize=".9rem"
 					flex="1"
 					variant="ghost"
@@ -137,15 +138,18 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 					variant="ghost"
 					leftIcon={<BiChat />}
 				>
+                // TODO
 					Comment
-				</Button>
+            </Button> */} 
 				<Button
 					fontSize=".9rem"
 					flex="1"
-					variant="ghost"
+					variant="outline"
+                    isDisabled={isSellerOwner}
 					leftIcon={<BiShoppingBag />}
+                    onClick={() => console.log('clicked')}
 				>
-					Purchase
+					{isSellerOwner ? 'You are the owner' : 'Purchase'}
 				</Button>
 			</CardFooter>
 		</Card>
