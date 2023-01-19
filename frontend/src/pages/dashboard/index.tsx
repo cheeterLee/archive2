@@ -24,7 +24,6 @@ const DashboardPage: React.FunctionComponent<IDashboardPageProps> = (props) => {
 	const { address } = useSignerContext()
 	// console.log(ownedNFTs)
 	console.log(listedButOwnedNFTs)
-	
 
 	if (!address) {
 		return <PlaceHolder />
@@ -47,15 +46,42 @@ const DashboardPage: React.FunctionComponent<IDashboardPageProps> = (props) => {
 							<Tab>Listed for sale</Tab>
 						</TabList>
 						<TabPanels>
-							<TabPanel display='flex' flexWrap='wrap' justifyContent='center' gap='1rem'>
-								{ownedNFTs?.map((nft) => (
-                                    <DashboardCard key={nft.id} nft={nft} />
-								))}
+							<TabPanel
+								display="flex"
+								flexWrap="wrap"
+								justifyContent="center"
+								gap="1rem"
+							>
+								{ownedNFTs?.length === 0 ? (
+									<Box>
+										<Text fontSize="xl">
+											You don't have any NFTs yet... :(
+										</Text>
+									</Box>
+								) : (
+									ownedNFTs?.map((nft) => (
+										<DashboardCard key={nft.id} nft={nft} />
+									))
+								)}
 							</TabPanel>
-							<TabPanel display='flex' flexWrap='wrap' justifyContent='center' gap='1rem'>
-								{listedButOwnedNFTs?.map((nft) => (
-									<DashboardCard key={nft.id} nft={nft} />
-								))}
+							<TabPanel
+								display="flex"
+								flexWrap="wrap"
+								justifyContent="center"
+								gap="1rem"
+							>
+								{listedButOwnedNFTs?.length === 0 ? (
+									<Box>
+										<Text fontSize="xl">
+											You haven't listed any NFTs yet...
+											:(
+										</Text>
+									</Box>
+								) : (
+									listedButOwnedNFTs?.map((nft) => (
+										<DashboardCard key={nft.id} nft={nft} />
+									))
+								)}
 							</TabPanel>
 						</TabPanels>
 					</Tabs>
