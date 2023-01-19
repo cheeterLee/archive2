@@ -11,7 +11,6 @@ const GalleryPage: React.FunctionComponent<IGalleryPageProps> = (props) => {
 	const { signer } = useSignerContext()
     const { listedNFTs } = useArchiveMarket()
     const isLoading = signer && !listedNFTs
-	console.log(listedNFTs)
 
 	return (
         <Box padding="1rem 3rem" display='flex' flexDirection='column' alignItems='center'>

@@ -22,8 +22,6 @@ export interface IDashboardPageProps {}
 const DashboardPage: React.FunctionComponent<IDashboardPageProps> = (props) => {
 	const { ownedNFTs, listedButOwnedNFTs } = useArchiveMarket()
 	const { address } = useSignerContext()
-	// console.log(ownedNFTs)
-	console.log(listedButOwnedNFTs)
 
 	if (!address) {
 		return <PlaceHolder />

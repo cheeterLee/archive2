@@ -3,6 +3,7 @@ import useArchiveMarket from "@/hooks/useArchiveMarket"
 import { convertIpfsToHttps } from "@/utils/helper"
 import { NFT, NFTMetaData } from "@/utils/type"
 import {
+	useToast,
 	Card,
 	CardBody,
 	Stack,
@@ -44,12 +45,13 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const { listNFT, cancelListing } = useArchiveMarket()
 	const { address } = useSignerContext()
+	const toast = useToast()
 
 	const fetchMetaData = async () => {
 		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
 		if (metaDataResponse.status != 200) return
 		const json = await metaDataResponse.json()
-		setMetaData({ 
+		setMetaData({
 			name: json.name,
 			description: json.description,
 			imageURL: convertIpfsToHttps(json.image),
@@ -72,6 +74,13 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 		try {
 			await listNFT(nft.id, wei)
 			onClose()
+			toast({
+				title: "NFT now listed! :)",
+				description: "Wait several seconds or reload to see.",
+				status: "success",
+				duration: 2000,
+				isClosable: true,
+			})
 		} catch (error) {
 			console.log(error)
 		}
@@ -85,6 +94,13 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 		setIsLoading(true)
 		try {
 			await cancelListing(nft.id)
+			toast({
+				title: "NFT now cancel listed! :)",
+				description: "Wait several seconds or reload to see.",
+				status: "success",
+				duration: 2000,
+				isClosable: true,
+			})
 		} catch (error) {
 			console.log(error)
 		}
@@ -132,7 +148,7 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 							variant="ghost"
 							colorScheme="teal"
 							isLoading={isLoading}
-							loadingText='Confirming...'
+							loadingText="Confirming..."
 							onClick={() => handleSaleButtonClicked()}
 						>
 							{onSale ? "Cancel Listing" : "List for sale"}
@@ -149,9 +165,11 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 										defaultValue={0.01}
 										min={0.01}
 										step={0.01}
-										name={'sellPrice'}
+										name={"sellPrice"}
 										value={sellPrice}
-										onChange={priceString => setSellPrice(priceString)}
+										onChange={(priceString) =>
+											setSellPrice(priceString)
+										}
 									>
 										<NumberInputField />
 										<NumberInputStepper>
@@ -165,7 +183,7 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 										variant="ghost"
 										colorScheme="pink"
 										isLoading={isLoading}
-										loadingText='Confriming...'
+										loadingText="Confriming..."
 										onClick={() => handleSellConfirmed()}
 									>
 										Confirm

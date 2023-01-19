@@ -62,6 +62,14 @@ const UploadPage: React.FunctionComponent<IUploadPageProps> = (props) => {
 			image: uploadImage,
 		})
 
+		toast({
+			title: 'NFT minted! :)',
+			description: "Wait several seconds or reload to see.",
+			status: 'success',
+			duration: 2000,
+			isClosable: true,
+		})
+
 		setIsLoading(false)
 		setName("")
 		setDescription("")
