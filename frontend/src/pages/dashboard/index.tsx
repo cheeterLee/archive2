@@ -13,7 +13,7 @@ import {
 	Tabs,
 } from "@chakra-ui/react"
 import Blockies from "react-blockies"
-import useSignerContext from "@/context/signer"
+import useSignerContext from "@/context/SignerContext"
 import PlaceHolder from "@/components/Placeholder"
 import DashboardCard from "@/components/DashboardCard"
 

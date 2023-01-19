@@ -4,7 +4,7 @@ import theme from "../chakra/theme"
 import Navbar from "@/components/Navbar"
 import { WagmiConfig, createClient } from "wagmi"
 import { getDefaultProvider } from "ethers"
-import { SignerContextProvider } from "@/context/signer"
+import { SignerContextProvider } from "@/context/SignerContext"
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 
 const GRAPH_URL = process.env.NEXT_PUBLIC_GRAPH_URL as string

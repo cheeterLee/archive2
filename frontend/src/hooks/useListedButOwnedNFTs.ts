@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client"
-import useSignerContext from '../context/signer'
+import useSignerContext from '../context/SignerContext'
 import { ARCHIVE_MARKET_ADDRESS } from "@/utils/config"
 import { GetListedButOwnedNFTs, GetListedButOwnedNFTsVariables } from "@/utils/type"
 import { parsedRawNFT } from "@/utils/helper"

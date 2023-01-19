@@ -27,9 +27,7 @@ export const SignerContextProvider = ({ children }: { children: ReactNode }) => 
 	useEffect(() => {
 		const web3modal = new Web3Modal()
 		if (web3modal.cachedProvider) connectWallet()
-        // if (window.ethereum !== undefined) {
-        //     window.ethereum.on("accountsChanged", connectWallet)
-        // }
+		window.ethereum.on("accountsChanged", connectWallet)
 	}, [])
 
 	const connectWallet = async () => {

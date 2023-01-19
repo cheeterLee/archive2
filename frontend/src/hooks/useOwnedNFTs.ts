@@ -1,4 +1,4 @@
-import useSignerContext from "@/context/signer"
+import useSignerContext from "@/context/SignerContext"
 import { parsedRawNFT } from "@/utils/helper"
 import { GetOwnedNFTs, GetOwnedNFTsVariables, GetOwnedNFTs_nfts, NFT } from "@/utils/type"
 import { gql, useQuery } from "@apollo/client"

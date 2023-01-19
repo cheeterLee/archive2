@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react"
 import Blockies from "react-blockies"
 import React, { useState, useEffect, useMemo } from "react"
-import useSignerContext from "@/context/signer"
+import useSignerContext from "@/context/SignerContext"
 import { shortenAddress } from "@/utils/helper"
 
 export interface IConnectButtonProps {}

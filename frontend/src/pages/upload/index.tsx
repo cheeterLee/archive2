@@ -25,7 +25,7 @@ import React, { FormEvent, useState } from "react"
 import CustomDropzone from "../../components/CustomDropzone"
 import { QuestionOutlineIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import useArchiveMarket from "../../hooks/useArchiveMarket"
-import useSignerContext from "@/context/signer"
+import useSignerContext from "@/context/SignerContext"
 import PlaceHolder from "@/components/Placeholder"
 
 export interface IUploadPageProps {}
