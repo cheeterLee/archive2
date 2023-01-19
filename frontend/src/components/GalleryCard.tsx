@@ -53,8 +53,18 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 		})
 	}
 
-	const handleClick = () => {
-		router.push(`/gallery/${nft.id}`)
+	const handleNavigate = () => {
+		router.push({
+			pathname: `/gallery/${nft.id}`,
+			query: {
+				name: metaData?.name,
+				description: metaData?.description,
+				imageURL: metaData?.imageURL,
+				owner: nft.owner,
+				price: nft.price,
+				tokenURI: nft.tokenURI
+			},
+		})
 	}
 
 	const handlePurchaseButtonClicked = async () => {
@@ -126,7 +136,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 					</Menu>
 				</Flex>
 			</CardHeader>
-			<CardBody cursor="pointer" onClick={handleClick}>
+			<CardBody cursor="pointer" onClick={handleNavigate}>
 				<Text noOfLines={1}>{metaData?.description}</Text>
 			</CardBody>
 			<Image
@@ -136,7 +146,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 				src={metaData?.imageURL}
 				alt="image asset"
 				cursor="pointer"
-				onClick={handleClick}
+				onClick={handleNavigate}
 			/>
 
 			<CardFooter
