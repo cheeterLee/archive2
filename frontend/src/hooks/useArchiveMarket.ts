@@ -1,5 +1,5 @@
 import { TransactionResponse } from "@ethersproject/abstract-provider"
-import { BigNumber, Contract } from "ethers"
+import { BigNumber, Contract, ethers } from "ethers"
 import ArchiveMarket from "./ArchiveMarket.json"
 // import { useSigner } from "wagmi"
 import useSignerContext from "@/context/SignerContext"
@@ -7,6 +7,7 @@ import useOwnedNFTs from "./useOwnedNFTs"
 import { ARCHIVE_MARKET_ADDRESS } from "@/utils/config"
 import useListedButOwnedNFTs from "./useListedButOwnedNFTs"
 import useListedNFTs from "./useListedNFTs"
+import { NFT } from "@/utils/type"
 
 type CreationValues = {
 	name: string
@@ -58,6 +59,13 @@ const useArchiveMarket = () => {
 		await transaction.wait()
 	}
 
+	const purchaseNFT = async (nft: NFT) => {
+		const transaction: TransactionResponse = await archiveMarket.purchaseNFT(
+			nft.id, { value: ethers.utils.parseEther(nft.price) }
+		)
+		await transaction.wait()
+	}
+
 	const ownedNFTs = useOwnedNFTs()
 	const listedButOwnedNFTs = useListedButOwnedNFTs()
 	const listedNFTs = useListedNFTs()
@@ -66,6 +74,7 @@ const useArchiveMarket = () => {
 		createNFT,
 		listNFT,
 		cancelListing,
+		purchaseNFT,
 		...ownedNFTs,
 		...listedButOwnedNFTs,
 		...listedNFTs,

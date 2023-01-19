@@ -15,6 +15,7 @@ import {
 	CardBody,
 	CardFooter,
 	Button,
+	useToast
 } from "@chakra-ui/react"
 import { BiLike, BiChat, BiShoppingBag } from "react-icons/bi"
 import Blockies from "react-blockies"
@@ -24,6 +25,7 @@ import {
 	BsHandThumbsDown,
 } from "react-icons/bs"
 import useSignerContext from "@/context/SignerContext"
+import useArchiveMarket from "@/hooks/useArchiveMarket"
 
 export interface IGallertCardProps {
 	nft: NFT
@@ -32,8 +34,11 @@ export interface IGallertCardProps {
 const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	const [metaData, setMetaData] = useState<NFTMetaData>()
     const [displayed, setDisplayed] = useState<string>("block")
+	const [isLoading, setIsLoading] = useState<boolean>(false)
     const { address } = useSignerContext()
+	const { purchaseNFT } = useArchiveMarket()
     const isSellerOwner = address?.toLowerCase() === nft.owner.toLowerCase()
+	const toast = useToast()
 
 	const fetchMetaData = async () => {
 		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
@@ -47,6 +52,23 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	}
 
 	const handleClick = () => {}
+
+	const handlePurchaseButtonClicked = async () => {
+		setIsLoading(true)
+		try {
+			await purchaseNFT(nft)
+			toast({
+				title: 'Successfully purchased :)',
+				description: "Wait a second and reload the page to see result.",
+				status: 'success',
+				duration: 2000,
+				isClosable: true,
+			})
+		} catch (error) {
+			console.log(error)
+		}
+		setIsLoading(false)
+	}
 
 	useEffect(() => {
 		fetchMetaData()
@@ -145,11 +167,13 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 					fontSize=".9rem"
 					flex="1"
 					variant="outline"
+					isLoading={isLoading}
+					loadingText="on the way..."
                     isDisabled={isSellerOwner}
 					leftIcon={<BiShoppingBag />}
-                    onClick={() => console.log('clicked')}
+                    onClick={() => handlePurchaseButtonClicked()}
 				>
-					{isSellerOwner ? 'You are the owner' : 'Purchase'}
+					{isSellerOwner ? 'You are the owner' : `Purchase ETH ${nft.price}`}
 				</Button>
 			</CardFooter>
 		</Card>
