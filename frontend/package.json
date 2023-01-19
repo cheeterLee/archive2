@@ -30,6 +30,7 @@
     "react-blockies": "^1.4.1",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-icons": "^4.7.1",
     "typescript": "4.9.4",
     "wagmi": "^0.10.11",
     "web3modal": "^1.9.11"

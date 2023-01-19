@@ -22,9 +22,9 @@ import {
 	Textarea,
 } from "@chakra-ui/react"
 import React, { FormEvent, useState } from "react"
-import CustomDropzone from "../components/CustomDropzone"
+import CustomDropzone from "../../components/CustomDropzone"
 import { QuestionOutlineIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import useArchiveMarket from "../hooks/useArchiveMarket"
+import useArchiveMarket from "../../hooks/useArchiveMarket"
 import useSignerContext from "@/context/signer"
 import PlaceHolder from "@/components/Placeholder"
 
