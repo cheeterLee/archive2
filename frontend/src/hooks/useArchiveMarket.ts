@@ -1,46 +1,61 @@
 import { TransactionResponse } from "@ethersproject/abstract-provider"
-import { Contract } from 'ethers'
-import ArchiveMarket from './ArchiveMarket.json'
+import { BigNumber, Contract } from "ethers"
+import ArchiveMarket from "./ArchiveMarket.json"
 // import { useSigner } from "wagmi"
 import useSignerContext from "@/context/signer"
 import useOwnedNFTs from "./useOwnedNFTs"
+import { ARCHIVE_MARKET_ADDRESS } from "@/utils/config"
+import useListedButOwnedNFTs from "./useListedButOwnedNFTs"
 
 type CreationValues = {
-    name: string
-    description: string
-    image: File 
+	name: string
+	description: string
+	image: File
 }
 
-const ARCHIVE_MARKET_ADDRESS = process.env.NEXT_PUBLIC_ARCHIVE_MARKET_ADDRESS as string
 
 const useArchiveMarket = () => {
-    const { signer } = useSignerContext()
-    const archiveMarket = new Contract(ARCHIVE_MARKET_ADDRESS, ArchiveMarket.abi, signer!)
- 
-    const createNFT = async (values: CreationValues) => {
-        try {
-            const data = new FormData()
-            data.append("name", values.name)
-            data.append("description", values.description)
-            data.append("image", values.image!)
-            const response = await fetch(`/api/nft`, {
-                method: "POST",
-                body: data,
-            })
-            if (response.status === 201) {
-                const json = await response.json()
-                console.log('tokenURI', json.uri)
-                const transsaction: TransactionResponse = await archiveMarket.createNFT(json.uri)
-                await transsaction.wait()
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+	const { signer } = useSignerContext()
+	const archiveMarket = new Contract(
+		ARCHIVE_MARKET_ADDRESS,
+		ArchiveMarket.abi,
+		signer!
+	)
 
-    const ownedNFTs = useOwnedNFTs()
+	const createNFT = async (values: CreationValues) => {
+		try {
+			const data = new FormData()
+			data.append("name", values.name)
+			data.append("description", values.description)
+			data.append("image", values.image!)
+			const response = await fetch(`/api/nft`, {
+				method: "POST",
+				body: data,
+			})
+			if (response.status === 201) {
+				const json = await response.json()
+				console.log("tokenURI", json.uri)
+				const transaction: TransactionResponse =
+					await archiveMarket.createNFT(json.uri)
+				await transaction.wait()
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
-    return { createNFT, ...ownedNFTs }
+	const listNFT = async (tokenId: string, price: BigNumber) => {
+		const transaction: TransactionResponse = await archiveMarket.listNFT(
+			tokenId,
+			price
+		)
+		await transaction.wait()
+	}
+
+	const ownedNFTs = useOwnedNFTs()
+    const listedButOwnedNFTs = useListedButOwnedNFTs()
+
+	return { createNFT, listNFT, ...ownedNFTs, ...listedButOwnedNFTs }
 }
 
 export default useArchiveMarket

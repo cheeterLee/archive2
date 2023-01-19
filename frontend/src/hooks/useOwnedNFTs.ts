@@ -1,7 +1,7 @@
 import useSignerContext from "@/context/signer"
+import { parsedRawNFT } from "@/utils/helper"
 import { GetOwnedNFTs, GetOwnedNFTsVariables, GetOwnedNFTs_nfts, NFT } from "@/utils/type"
 import { gql, useQuery } from "@apollo/client"
-import { ethers } from "ethers"
 
 const useOwnedNFTs = () => {
     const { address } = useSignerContext()
@@ -14,15 +14,6 @@ const useOwnedNFTs = () => {
     const ownedNFTs = data?.nfts.map(parsedRawNFT)
 
     return { ownedNFTs }
-}
-
-const parsedRawNFT = (raw: GetOwnedNFTs_nfts): NFT => {
-    return {
-        id: raw.id,
-        owner: raw.price == '0' ? raw.to : raw.from,
-        price: raw.price == '0' ? '0' : ethers.utils.formatEther(raw.price),
-        tokenURI: raw.tokenURI,
-    }
 }
 
 const GET_OWNED_NFTS = gql `

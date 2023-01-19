@@ -1,3 +1,4 @@
+import useArchiveMarket from "@/hooks/useArchiveMarket"
 import { convertIpfsToHttps } from "@/utils/helper"
 import { NFT, NFTMetaData } from "@/utils/type"
 import {
@@ -25,6 +26,7 @@ import {
 	NumberIncrementStepper,
 	NumberDecrementStepper,
 } from "@chakra-ui/react"
+import { ethers } from "ethers"
 import React, { useEffect, useRef, useState } from "react"
 
 export interface IDashboardCardProps {
@@ -35,16 +37,17 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 	nft,
 }) => {
 	const onSale = nft.price != "0"
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [metaData, setMetaData] = useState<NFTMetaData>()
 	const [sellPrice, setSellPrice] = useState<string>("0.01")
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	// const sellPriceRef = useRef()
+	const { listNFT } = useArchiveMarket()
 
 	const fetchMetaData = async () => {
 		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
 		if (metaDataResponse.status != 200) return
 		const json = await metaDataResponse.json()
-		setMetaData({
+		setMetaData({ 
 			name: json.name,
 			description: json.description,
 			imageURL: convertIpfsToHttps(json.image),
@@ -61,9 +64,16 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 
 	const handleDetailButtonClicked = () => {}
 
-	const handleSellConfirmed = () => {
-		console.log('price', sellPrice)
-		onClose()
+	const handleSellConfirmed = async () => {
+		const wei = ethers.utils.parseEther(sellPrice)
+		console.log('price', wei)
+		setIsLoading(true)
+		try {
+			await listNFT(nft.id, wei)
+			onClose()
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const handleCancelListing = () => {}
@@ -139,6 +149,8 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 									<Button
 										variant="ghost"
 										colorScheme="pink"
+										isLoading={isLoading}
+										loadingText='Confriming...'
 										onClick={() => handleSellConfirmed()}
 									>
 										Confirm
