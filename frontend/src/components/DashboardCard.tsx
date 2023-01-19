@@ -11,8 +11,21 @@ import {
 	Button,
 	Image,
 	Text,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
+	NumberInput,
+	NumberInputField,
+	NumberInputStepper,
+	NumberIncrementStepper,
+	NumberDecrementStepper,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 export interface IDashboardCardProps {
 	nft: NFT
@@ -21,22 +34,43 @@ export interface IDashboardCardProps {
 const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 	nft,
 }) => {
-    const [metaData, setMetaData] = useState<NFTMetaData>()
+	const onSale = nft.price != "0"
+	const [metaData, setMetaData] = useState<NFTMetaData>()
+	const [sellPrice, setSellPrice] = useState<string>("0.01")
+	const { isOpen, onOpen, onClose } = useDisclosure()
+	// const sellPriceRef = useRef()
 
-    const fetchMetaData = async () => {
-        const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
-        if (metaDataResponse.status != 200) return
-        const json = await metaDataResponse.json()
-        setMetaData({
-            name: json.name,
-            description: json.description,
-            imageURL: convertIpfsToHttps(json.image),
-        })
-    }
+	const fetchMetaData = async () => {
+		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
+		if (metaDataResponse.status != 200) return
+		const json = await metaDataResponse.json()
+		setMetaData({
+			name: json.name,
+			description: json.description,
+			imageURL: convertIpfsToHttps(json.image),
+		})
+	}
 
-    useEffect(() => {
-        fetchMetaData()
-    }, [nft.tokenURI])
+	const handleSaleButtonClicked = () => {
+		if (onSale) {
+			handleCancelListing()
+		} else {
+			onOpen()
+		}
+	}
+
+	const handleDetailButtonClicked = () => {}
+
+	const handleSellConfirmed = () => {
+		console.log('price', sellPrice)
+		onClose()
+	}
+
+	const handleCancelListing = () => {}
+
+	useEffect(() => {
+		fetchMetaData()
+	}, [nft.tokenURI])
 
 	return (
 		<>
@@ -46,27 +80,72 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 						src={metaData?.imageURL}
 						alt="Green double couch with wooden legs"
 						borderRadius="lg"
-                        width='400px'
-                        height='300px'
-                        objectFit='cover'
+						width="400px"
+						height="300px"
+						objectFit="cover"
 					/>
 					<Stack mt="6" spacing="3">
 						<Heading size="md">{metaData?.name}</Heading>
 
-						<Text fontSize="md">
-							{metaData?.description}
-						</Text>
+						<Text fontSize="md">{metaData?.description}</Text>
 					</Stack>
 				</CardBody>
 				<Divider />
 				<CardFooter>
-					<ButtonGroup spacing="2" display='flex' width='100%' justifyContent='center'>
-						<Button variant="ghost" colorScheme="teal">
+					<ButtonGroup
+						spacing="2"
+						display="flex"
+						width="100%"
+						justifyContent="center"
+					>
+						<Button
+							variant="ghost"
+							colorScheme="teal"
+							onClick={() => handleDetailButtonClicked()}
+						>
 							View Details
 						</Button>
-						<Button variant="ghost" colorScheme="teal">
-							List for sale
+						<Button
+							variant="ghost"
+							colorScheme="teal"
+							onClick={() => handleSaleButtonClicked()}
+						>
+							{onSale ? "Cancel Listing" : "List for sale"}
 						</Button>
+						<Modal isOpen={isOpen} onClose={onClose}>
+							<ModalOverlay />
+							<ModalContent style={{ marginTop: "15rem" }}>
+								<ModalHeader>
+									Enter the price in ETH :)
+								</ModalHeader>
+								<ModalCloseButton />
+								<ModalBody>
+									<NumberInput
+										defaultValue={0.01}
+										min={0.01}
+										step={0.01}
+										name={'sellPrice'}
+										value={sellPrice}
+										onChange={priceString => setSellPrice(priceString)}
+									>
+										<NumberInputField />
+										<NumberInputStepper>
+											<NumberIncrementStepper />
+											<NumberDecrementStepper />
+										</NumberInputStepper>
+									</NumberInput>
+								</ModalBody>
+								<ModalFooter>
+									<Button
+										variant="ghost"
+										colorScheme="pink"
+										onClick={() => handleSellConfirmed()}
+									>
+										Confirm
+									</Button>
+								</ModalFooter>
+							</ModalContent>
+						</Modal>
 					</ButtonGroup>
 				</CardFooter>
 			</Card>
