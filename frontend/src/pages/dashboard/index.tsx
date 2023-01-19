@@ -52,8 +52,10 @@ const DashboardPage: React.FunctionComponent<IDashboardPageProps> = (props) => {
                                     <DashboardCard key={nft.id} nft={nft} />
 								))}
 							</TabPanel>
-							<TabPanel>
-								<p>two!</p>
+							<TabPanel display='flex' flexWrap='wrap' justifyContent='center' gap='1rem'>
+								{listedButOwnedNFTs?.map((nft) => (
+									<DashboardCard key={nft.id} nft={nft} />
+								))}
 							</TabPanel>
 						</TabPanels>
 					</Tabs>

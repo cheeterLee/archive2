@@ -52,10 +52,17 @@ const useArchiveMarket = () => {
 		await transaction.wait()
 	}
 
+    const cancelListing = async (tokenId: string) => {
+        const transaction: TransactionResponse = await archiveMarket.cancelListing(
+            tokenId
+        )
+        await transaction.wait()
+    }
+
 	const ownedNFTs = useOwnedNFTs()
     const listedButOwnedNFTs = useListedButOwnedNFTs()
 
-	return { createNFT, listNFT, ...ownedNFTs, ...listedButOwnedNFTs }
+	return { createNFT, listNFT, cancelListing, ...ownedNFTs, ...listedButOwnedNFTs }
 }
 
 export default useArchiveMarket

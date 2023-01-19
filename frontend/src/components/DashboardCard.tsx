@@ -1,3 +1,4 @@
+import useSignerContext from "@/context/signer"
 import useArchiveMarket from "@/hooks/useArchiveMarket"
 import { convertIpfsToHttps } from "@/utils/helper"
 import { NFT, NFTMetaData } from "@/utils/type"
@@ -41,7 +42,8 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 	const [metaData, setMetaData] = useState<NFTMetaData>()
 	const [sellPrice, setSellPrice] = useState<string>("0.01")
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	const { listNFT } = useArchiveMarket()
+	const { listNFT, cancelListing } = useArchiveMarket()
+	const { address } = useSignerContext()
 
 	const fetchMetaData = async () => {
 		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
@@ -66,7 +68,6 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 
 	const handleSellConfirmed = async () => {
 		const wei = ethers.utils.parseEther(sellPrice)
-		console.log('price', wei)
 		setIsLoading(true)
 		try {
 			await listNFT(nft.id, wei)
@@ -74,9 +75,21 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 		} catch (error) {
 			console.log(error)
 		}
+		setIsLoading(false)
 	}
 
-	const handleCancelListing = () => {}
+	const handleCancelListing = async () => {
+		if (nft.owner !== address?.toLowerCase()) {
+			return
+		}
+		setIsLoading(true)
+		try {
+			await cancelListing(nft.id)
+		} catch (error) {
+			console.log(error)
+		}
+		setIsLoading(false)
+	}
 
 	useEffect(() => {
 		fetchMetaData()
@@ -118,6 +131,8 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 						<Button
 							variant="ghost"
 							colorScheme="teal"
+							isLoading={isLoading}
+							loadingText='Confirming...'
 							onClick={() => handleSaleButtonClicked()}
 						>
 							{onSale ? "Cancel Listing" : "List for sale"}
