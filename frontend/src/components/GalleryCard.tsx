@@ -26,6 +26,7 @@ import {
 } from "react-icons/bs"
 import useSignerContext from "@/context/SignerContext"
 import useArchiveMarket from "@/hooks/useArchiveMarket"
+import { useRouter } from "next/router"
 
 export interface IGallertCardProps {
 	nft: NFT
@@ -39,6 +40,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	const { purchaseNFT } = useArchiveMarket()
     const isSellerOwner = address?.toLowerCase() === nft.owner.toLowerCase()
 	const toast = useToast()
+	const router = useRouter()
 
 	const fetchMetaData = async () => {
 		const metaDataResponse = await fetch(convertIpfsToHttps(nft.tokenURI))
@@ -51,7 +53,9 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 		})
 	}
 
-	const handleClick = () => {}
+	const handleClick = () => {
+		router.push(`/gallery/${nft.id}`)
+	}
 
 	const handlePurchaseButtonClicked = async () => {
 		setIsLoading(true)
