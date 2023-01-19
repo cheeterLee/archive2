@@ -6,6 +6,13 @@ export type NFT = {
     tokenURI: string
 }
 
+// meta data stored in ipfs
+export type NFTMetaData = {
+	name: string
+	description: string
+	imageURL: string
+}
+
 // get owned nfts
 export interface GetOwnedNFTs_nfts {
 	__typename: "NFT"

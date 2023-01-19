@@ -23,7 +23,7 @@ const PlaceHolder: React.FunctionComponent<IPlaceHolderProps> = (props) => {
 		<>
 			<Stack alignItems="center" justifyContent="center" padding="5rem">
 				<Text fontSize="1.2rem">
-					Please connect your wallet to upload :)
+					Please connect your wallet to view :)
 				</Text>
 				<Image src={CoolDog} alt="cool dog" />
 			</Stack>
