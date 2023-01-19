@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client"
 import useSignerContext from '../context/SignerContext'
 import { ARCHIVE_MARKET_ADDRESS } from "@/utils/config"
 import { GetListedButOwnedNFTs, GetListedButOwnedNFTsVariables } from "@/utils/type"
-import { parsedRawNFT } from "@/utils/helper"
+import { parseRawNFT } from "@/utils/helper"
 
 const useListedButOwnedNFTs = () => {
     const { address } = useSignerContext()
@@ -11,7 +11,7 @@ const useListedButOwnedNFTs = () => {
         { variables: { owner: address ?? "" }, skip: !address }
     )
 
-    const listedButOwnedNFTs = data?.nfts.map(parsedRawNFT)
+    const listedButOwnedNFTs = data?.nfts.map(parseRawNFT)
 
     return { listedButOwnedNFTs }
 }

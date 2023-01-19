@@ -6,13 +6,13 @@ import useSignerContext from "@/context/SignerContext"
 import useOwnedNFTs from "./useOwnedNFTs"
 import { ARCHIVE_MARKET_ADDRESS } from "@/utils/config"
 import useListedButOwnedNFTs from "./useListedButOwnedNFTs"
+import useListedNFTs from "./useListedNFTs"
 
 type CreationValues = {
 	name: string
 	description: string
 	image: File
 }
-
 
 const useArchiveMarket = () => {
 	const { signer } = useSignerContext()
@@ -52,17 +52,24 @@ const useArchiveMarket = () => {
 		await transaction.wait()
 	}
 
-    const cancelListing = async (tokenId: string) => {
-        const transaction: TransactionResponse = await archiveMarket.cancelListing(
-            tokenId
-        )
-        await transaction.wait()
-    }
+	const cancelListing = async (tokenId: string) => {
+		const transaction: TransactionResponse =
+			await archiveMarket.cancelListing(tokenId)
+		await transaction.wait()
+	}
 
 	const ownedNFTs = useOwnedNFTs()
-    const listedButOwnedNFTs = useListedButOwnedNFTs()
+	const listedButOwnedNFTs = useListedButOwnedNFTs()
+	const listedNFTs = useListedNFTs()
 
-	return { createNFT, listNFT, cancelListing, ...ownedNFTs, ...listedButOwnedNFTs }
+	return {
+		createNFT,
+		listNFT,
+		cancelListing,
+		...ownedNFTs,
+		...listedButOwnedNFTs,
+		...listedNFTs,
+	}
 }
 
 export default useArchiveMarket

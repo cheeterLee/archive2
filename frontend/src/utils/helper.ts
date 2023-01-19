@@ -15,7 +15,7 @@ export const shortenAddress = (address: string) => {
     return `${start}...${end}`
 }
 
-export const parsedRawNFT = (raw: GetOwnedNFTs_nfts): NFT => {
+export const parseRawNFT = (raw: GetOwnedNFTs_nfts): NFT => {
     return {
         id: raw.id,
         owner: raw.price == '0' ? raw.to : raw.from,

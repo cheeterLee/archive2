@@ -64,7 +64,7 @@ const DashboardCard: React.FunctionComponent<IDashboardCardProps> = ({
 		}
 	}
 
-	const handleDetailButtonClicked = () => {}
+	const handleDetailButtonClicked = () => {} //TODO
 
 	const handleSellConfirmed = async () => {
 		const wei = ethers.utils.parseEther(sellPrice)
