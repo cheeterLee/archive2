@@ -54,6 +54,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	return (
 		<Card
 			maxW="400px"
+            // height='600px'
 			padding="1rem 2rem"
 			display={displayed}
 			// TODO: stop hover event propagating
@@ -103,6 +104,8 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 			</CardBody>
 			<Image
 				objectFit="cover"
+                width='400px'
+                height='300px'
 				src={metaData?.imageURL}
 				alt="image asset"
 				cursor="pointer"

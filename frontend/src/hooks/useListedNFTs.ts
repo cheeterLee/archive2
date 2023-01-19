@@ -9,7 +9,7 @@ const useListedNFTs = () => {
 
     const { data } = useQuery<GetListedNFTs, GetListedNFTsVariables>(
         GET_LISTED_NFTS,
-        { variables: { currentAddress: address ?? '' }, skip: !address }
+        { variables: { currentAddress: address ?? '' } }
     ) 
     
     const listedNFTs = data?.nfts.map(parseRawNFT)

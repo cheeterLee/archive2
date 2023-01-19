@@ -85,8 +85,8 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 					}}
 				>
 					<Link href="/">Home</Link>
-					<Link href="/upload">Upload</Link>
 					<Link href="/gallery">Gallery</Link>
+					<Link href="/upload">Upload</Link>
 					<Link href="/dashboard">Dashboard</Link>
 					<Link href="/contact">Contact</Link>
 				</Flex>
@@ -133,8 +133,8 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 								flexDir="column"
 							>
 								<Link href="/">Home</Link>
-								<Link href="/upload">Upload</Link>
 								<Link href="/gallery">Gallery</Link>
+								<Link href="/upload">Upload</Link>
 								<Link href="/dashboard">Dashboard</Link>
 								<Link href="/contact">Contact</Link>
 							</Flex>

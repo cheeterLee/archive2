@@ -13,12 +13,6 @@ const GalleryPage: React.FunctionComponent<IGalleryPageProps> = (props) => {
     const isLoading = signer && !listedNFTs
 	console.log(listedNFTs)
 
-    if (!signer) {
-		return (
-			<PlaceHolder />
-		)
-	}
-
 	return (
         <Box padding="1rem 3rem" display='flex' flexDirection='column' alignItems='center'>
 			<Heading as="h4" size="md" padding='1rem'>
