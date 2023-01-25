@@ -19,7 +19,7 @@ type GLTFResult = GLTF & {
 }
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/eth.gltf') as GLTFResult
+  const { nodes, materials } = useGLTF('/eth.gltf') as unknown as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh castShadow receiveShadow geometry={nodes.Plane001_Plane002.geometry} material={materials.stone} rotation={[Math.PI / 2, 0, 0]} />
