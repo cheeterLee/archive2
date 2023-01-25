@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app"
-import './index.css'
 import { ChakraProvider } from "@chakra-ui/react"
 import theme from "../chakra/theme"
 import Navbar from "@/components/Navbar"
