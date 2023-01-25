@@ -1,6 +1,17 @@
 import Head from "next/head"
+import bg from "../../public/bg.jpg"
+import { Model } from "../model/Eth"
+import { Canvas } from "@react-three/fiber"
+import { ContactShadows } from "@react-three/drei"
+import { Button } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 
 export default function Home() {
+	const router = useRouter()
+	const handleNavigate = () => {
+		router.push("/gallery")
+	}
+
 	return (
 		<>
 			<Head>
@@ -15,7 +26,6 @@ export default function Home() {
 				/>
 			</Head>
 			<div
-				id="home-wrapper"
 				style={{
 					position: "fixed",
 					top: "13vh",
@@ -23,10 +33,54 @@ export default function Home() {
 					right: "0",
 					bottom: "0",
 					zIndex: -1,
-					background: "linear-gradient(to right, #DECBA4, #3E5151)",
+					backgroundColor: "#5e5a5a",
+					backgroundImage: `url(${bg.src})`,
+					backgroundBlendMode: "multiply",
+					backgroundSize: "cover",
 				}}
 			>
-				hello
+				<Canvas>
+					<ambientLight color="#ffa940" intensity={0.9} />
+					<pointLight position={[0, 1, 1]} />
+					<pointLight position={[-10, -10, -10]} color="#fa8c16" />
+					<spotLight
+						position={[-2, 1, 32]}
+						angle={0.2}
+						intensity={1}
+					/>
+					<ContactShadows
+						scale={12}
+						blur={4}
+						opacity={1}
+						far={100}
+						position={[0, -0.001, 0]}
+					/>
+					<Model />
+				</Canvas>
+				<div
+					style={{
+						position: "fixed",
+						top: "13vh",
+						left: "0",
+						right: "0",
+						bottom: "0",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "end",
+						padding: "5rem 1rem",
+					}}
+				>
+					<Button
+						onClick={handleNavigate}
+						variant="outline"
+						colorScheme="orange"
+						style={{
+							padding: '1rem 2rem'
+						}}
+					>
+						Explore our gallery
+					</Button>
+				</div>
 			</div>
 		</>
 	)
