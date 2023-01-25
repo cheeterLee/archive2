@@ -106,7 +106,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
                         <Blockies seed={nft.owner} />
 						<Text noOfLines={1}>{shortenAddress(nft.owner)}</Text>
 					</Flex>
-					<Menu>
+					{/* <Menu>
 						<MenuButton
 							as={IconButton}
 							aria-label="options"
@@ -133,7 +133,7 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 								Report
 							</MenuItem>
 						</MenuList>
-					</Menu>
+					</Menu> */}
 				</Flex>
 			</CardHeader>
 			<CardBody cursor="pointer" onClick={handleNavigate}>
