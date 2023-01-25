@@ -29,11 +29,12 @@ const ContactPage: React.FunctionComponent<IContactPageProps> = (props) => {
 		<Container
 			centerContent
 			style={{
-				marginTop: "3rem",
+				marginTop: "1.5rem",
+                marginBottom: '1rem',
 				padding: "2rem",
 				backgroundColor: "#DFE0DF",
-				height: "75vh",
-				minWidth: "80vw",
+				height: 'auto',
+				minWidth: "70vw",
                 borderRadius: '.75rem',
                 boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px'
 			}}
