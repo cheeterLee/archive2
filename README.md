@@ -10,6 +10,7 @@
 ![Mocha](https://img.shields.io/badge/Mocha-8D6748.svg?style=for-the-badge&logo=Mocha&logoColor=white)
 
 - Mint your own NFT and trade with others :)
+- Deployed at https://archivenft.netlify.app/
 
 ![image](https://user-images.githubusercontent.com/87960642/214473319-95aafa3a-98cb-4a8a-8790-3b8682d1c304.png)
 

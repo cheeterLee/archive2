@@ -14,15 +14,31 @@ import {
 	PopoverHeader,
 	PopoverTrigger,
 	Portal,
+	useToast
 } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import { QuestionOutlineIcon } from "@chakra-ui/icons"
+import { useEffect } from "react"
 
 export default function Home() {
 	const router = useRouter()
 	const handleNavigate = () => {
 		router.push("/gallery")
 	}
+	const toast = useToast()
+
+	useEffect(() => {
+		if (!window.ethereum) {
+			toast({
+				position: 'top',
+				title: "No wallet detected",
+				description: "Please install Metamask for better user experience :)",
+				status: "warning",
+				duration: 7000,
+				isClosable: true,
+			})
+		}
+	}, [])
 
 	return (
 		<>

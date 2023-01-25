@@ -19,7 +19,11 @@ const SignerContext = createContext<SignerContextType>({} as any)
 
 const useSignerContext = () => useContext(SignerContext)
 
-export const SignerContextProvider = ({ children }: { children: ReactNode }) => {
+export const SignerContextProvider = ({
+	children,
+}: {
+	children: ReactNode
+}) => {
 	const [signer, setSigner] = useState<JsonRpcSigner>()
 	const [address, setAddress] = useState<string>()
 	const [loading, setLoading] = useState(false)
@@ -27,7 +31,9 @@ export const SignerContextProvider = ({ children }: { children: ReactNode }) => 
 	useEffect(() => {
 		const web3modal = new Web3Modal()
 		if (web3modal.cachedProvider) connectWallet()
-		window.ethereum.on("accountsChanged", connectWallet)
+		if (window.ethereum !== undefined) {
+			window.ethereum.on("accountsChanged", connectWallet)
+		}
 	}, [])
 
 	const connectWallet = async () => {
