@@ -15,7 +15,7 @@ import {
 	CardBody,
 	CardFooter,
 	Button,
-	useToast
+	useToast,
 } from "@chakra-ui/react"
 import { BiLike, BiChat, BiShoppingBag } from "react-icons/bi"
 import Blockies from "react-blockies"
@@ -34,11 +34,12 @@ export interface IGallertCardProps {
 
 const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	const [metaData, setMetaData] = useState<NFTMetaData>()
-    const [displayed, setDisplayed] = useState<string>("block")
+	const [displayed, setDisplayed] = useState<string>("block")
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-    const { address } = useSignerContext()
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const { address } = useSignerContext()
 	const { purchaseNFT } = useArchiveMarket()
-    const isSellerOwner = address?.toLowerCase() === nft.owner.toLowerCase()
+	const isSellerOwner = address?.toLowerCase() === nft.owner.toLowerCase()
 	const toast = useToast()
 	const router = useRouter()
 
@@ -62,9 +63,13 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 				imageURL: metaData?.imageURL,
 				owner: nft.owner,
 				price: nft.price,
-				tokenURI: nft.tokenURI
+				tokenURI: nft.tokenURI,
 			},
 		})
+	}
+
+	const handleNavigateReport = () => {
+		router.push("/contact")
 	}
 
 	const handlePurchaseButtonClicked = async () => {
@@ -72,9 +77,9 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 		try {
 			await purchaseNFT(nft)
 			toast({
-				title: 'Successfully purchased :)',
+				title: "Successfully purchased :)",
 				description: "Wait a second and reload the page to see result.",
-				status: 'success',
+				status: "success",
 				duration: 2000,
 				isClosable: true,
 			})
@@ -91,7 +96,6 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 	return (
 		<Card
 			maxW="400px"
-            // height='600px'
 			padding="1rem 2rem"
 			display={displayed}
 			// TODO: stop hover event propagating
@@ -103,16 +107,20 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 				<Flex>
 					<Flex flex="1" gap="4" alignItems="center" maxW="100%">
 						{/* <Avatar /> */}
-                        <Blockies seed={nft.owner} />
+						<Blockies seed={nft.owner} />
 						<Text noOfLines={1}>{shortenAddress(nft.owner)}</Text>
 					</Flex>
-					{/* <Menu>
-						<MenuButton
-							as={IconButton}
-							aria-label="options"
-							variant="ghost"
-							icon={<BsThreeDotsVertical />}
-						/>
+					<Menu>
+						<MenuButton aria-label="options">
+							<IconButton
+								aria-label="options"
+								variant="outline"
+								icon={<BsThreeDotsVertical />}
+								style={{
+									border: "none",
+								}}
+							/>
+						</MenuButton>
 						<MenuList>
 							<MenuItem
 								gap=".5rem"
@@ -125,15 +133,13 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 							</MenuItem>
 							<MenuItem
 								gap=".5rem"
-								onClick={() => {
-									//TODO navigate to report
-								}}
+								onClick={() => handleNavigateReport()}
 							>
 								<BsHandThumbsDown />
 								Report
 							</MenuItem>
 						</MenuList>
-					</Menu> */}
+					</Menu>
 				</Flex>
 			</CardHeader>
 			<CardBody cursor="pointer" onClick={handleNavigate}>
@@ -141,8 +147,8 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 			</CardBody>
 			<Image
 				objectFit="cover"
-                width='400px'
-                height='300px'
+				width="400px"
+				height="300px"
 				src={metaData?.imageURL}
 				alt="image asset"
 				cursor="pointer"
@@ -176,18 +182,20 @@ const GallertCard: React.FunctionComponent<IGallertCardProps> = ({ nft }) => {
 				>
                 // TODO
 					Comment
-            </Button> */} 
+            </Button> */}
 				<Button
 					fontSize=".9rem"
 					flex="1"
 					variant="outline"
 					isLoading={isLoading}
 					loadingText="on the way..."
-                    isDisabled={isSellerOwner}
+					isDisabled={isSellerOwner}
 					leftIcon={<BiShoppingBag />}
-                    onClick={() => handlePurchaseButtonClicked()}
+					onClick={() => handlePurchaseButtonClicked()}
 				>
-					{isSellerOwner ? 'You are the owner' : `Purchase ETH ${nft.price}`}
+					{isSellerOwner
+						? "You are the owner"
+						: `Purchase ETH ${nft.price}`}
 				</Button>
 			</CardFooter>
 		</Card>
