@@ -3,8 +3,20 @@ import bg from "../../public/bg.jpg"
 import { Model } from "../model/Eth"
 import { Canvas } from "@react-three/fiber"
 import { ContactShadows } from "@react-three/drei"
-import { Button } from "@chakra-ui/react"
+import {
+	Button,
+	IconButton,
+	Popover,
+	PopoverArrow,
+	PopoverCloseButton,
+	PopoverContent,
+	PopoverFooter,
+	PopoverHeader,
+	PopoverTrigger,
+	Portal,
+} from "@chakra-ui/react"
 import { useRouter } from "next/router"
+import { QuestionOutlineIcon } from "@chakra-ui/icons"
 
 export default function Home() {
 	const router = useRouter()
@@ -75,12 +87,38 @@ export default function Home() {
 						variant="outline"
 						colorScheme="orange"
 						style={{
-							padding: '1rem 2rem'
+							padding: "1rem 2rem",
 						}}
 					>
 						Explore our gallery
 					</Button>
 				</div>
+				<Popover>
+					<PopoverTrigger>
+						<IconButton
+							variant='outline'
+							color='#EACB83'
+							colorScheme='#EACB83'
+							zIndex={20}
+							position="fixed"
+							right="10"
+							bottom="10"
+							aria-label="question"
+							icon={<QuestionOutlineIcon />}
+						/>
+					</PopoverTrigger>
+					<Portal>
+						<PopoverContent>
+							<PopoverArrow />
+							<PopoverHeader>Tips 💡</PopoverHeader>
+							<PopoverCloseButton />
+							<PopoverFooter>
+								Connect to crypto wallet first before uploading
+								your asset!
+							</PopoverFooter>
+						</PopoverContent>
+					</Portal>
+				</Popover>
 			</div>
 		</>
 	)

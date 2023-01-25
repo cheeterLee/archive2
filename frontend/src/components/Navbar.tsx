@@ -36,10 +36,9 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
 	return (
 		<Flex
 			padding="2rem 4rem"
-			background="whiteAlpha.100"
 			alignItems="center"
 			justifyContent="space-between"
-			bg="blackAlpha.400"
+			bg={colorMode === "dark" ? '#4D4637': '#B3AA99'}
 			w='100vw'
 			height='13vh'
 		>
