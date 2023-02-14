@@ -40,7 +40,7 @@ const ConnectButton: React.FunctionComponent<IConnectButtonProps> = (props) => {
 						<ModalHeader>Modal Title</ModalHeader>
 						<ModalCloseButton />
 						<ModalBody>
-							blah
+							Coming soon...
 						</ModalBody>
 
 						<ModalFooter>
