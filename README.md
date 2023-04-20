@@ -1,4 +1,4 @@
-# Archive.com
+# Archive.com: NFT marketplace
 
 ![Next.JS](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white)
@@ -9,11 +9,32 @@
 ![Three.JS](https://img.shields.io/badge/Three.js-000000.svg?style=for-the-badge&logo=threedotjs&logoColor=white)
 ![Mocha](https://img.shields.io/badge/Mocha-8D6748.svg?style=for-the-badge&logo=Mocha&logoColor=white)
 
-- Mint your own NFT and trade with others :)
-- Deployed at https://archivenft.netlify.app/
+**Mint your own NFT and trade with others :)**
 
-![image](https://user-images.githubusercontent.com/87960642/214473319-95aafa3a-98cb-4a8a-8790-3b8682d1c304.png)
+Deployed at https://archivenft.netlify.app/
 
-![image](https://user-images.githubusercontent.com/87960642/214473328-e21ff6cf-f294-4f19-a508-969cd0731a33.png)
+## Features 功能
+- Responsive layout with dark and light theme 页面自适应并有黑白夜模式
+- Upload image and text together as a NFT onto IPFS 将图片与文字打包成同一个NFT存储于IPFS
+- List and Unlist your NFT 上架下架用户所拥有的NFT
+- Trade NFT with others 与他人交易NFT
 
-![image](https://user-images.githubusercontent.com/87960642/214473433-9f00e56d-f051-4e49-9fcb-12cd568d8919.png)
+## View 页面展示
+
+- Home page 主页
+![image](https://user-images.githubusercontent.com/87960642/233415615-440cb33c-ee25-4d7a-847a-2cc9c2a16f3a.png)
+
+- Gallery page 市场页面
+![image](https://user-images.githubusercontent.com/87960642/233416114-41951f16-31d3-40e8-9543-0f7b288c1915.png)
+
+- Upload page 上传页面
+![image](https://user-images.githubusercontent.com/87960642/233416388-81d9b64a-928a-44bb-b237-dc88c2969a06.png)
+
+- Listing NFT 上架NFT
+![image](https://user-images.githubusercontent.com/87960642/233416745-f6ad216c-60e3-4e19-a08f-0e44906e8ee5.png)
+
+- Cancel listing 下架NFT
+![image](https://user-images.githubusercontent.com/87960642/233416769-002acc7b-d87a-4f95-9500-feb4c5bd7268.png)
+
+- Contact Page 联系页面
+<img width="1439" alt="image" src="https://user-images.githubusercontent.com/87960642/233416786-a4464ed6-e3ae-4cea-97d3-ec62f3d2bdf6.png">
